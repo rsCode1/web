@@ -2,126 +2,177 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MTW App Template</title>
-    <!--
-        The tailwind CDN is designed for development purposes only, and is not the best choice for production.
-        Read more here: https://tailwindcss.com/docs/installation 
-    -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- example for dark theme styling when using tailwind cdn -->
-    <style>
-      /*examples for dark/light themes*/
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-      #calculator {
-        width: 200px;
-        margin: auto;
-        border: 1px solid #000;
-        padding: 10px;
-        background-color: #f3f3f3; /* Light grey background for calculator */
-      }
-
-      #display {
-        width: 100%;
-        height: 30px;
-        background-color: #fff;
-        text-align: right;
-        padding: 5px;
-        margin-bottom: 10px;
-        border: 1px solid #000;
-      }
-
-      .button {
-        width: 45px;
-        height: 45px;
-        margin: 2px;
-        font-size: 16px;
-        background-color: #4caf50; /* Green background for buttons */
-        color: white; /* White text for buttons */
-        border: none; /* Remove border */
-        border-radius: 5px; /* Rounded corners for buttons */
-        cursor: pointer; /* Cursor pointer on hover */
-      }
-
-      .button:hover {
-        background-color: #45a049; /* Darker green on hover */
-      }
-
-      .row {
-        display: flex;
-      }
-    </style>
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Scientific Calculator</title>
   </head>
-
-  <body class="dark:text-white light:text-black">
-    <!-- your app code goes here -->
-    <div id="calculator">
-      <!-- Display Screen -->
-      <div id="display">0</div>
-
-      <!-- Row 1 -->
-      <div class="row">
-        <button class="button" onclick="clearDisplay()">C</button>
-        <button class="button" onclick="operation('/')">/</button>
-        <button class="button" onclick="operation('*')">*</button>
-        <button class="button" onclick="operation('-')">-</button>
-      </div>
-
-      <!-- Row 2 -->
-      <div class="row">
-        <button class="button" onclick="input('7')">7</button>
-        <button class="button" onclick="input('8')">8</button>
-        <button class="button" onclick="input('9')">9</button>
-        <button class="button" onclick="operation('+')">+</button>
-      </div>
-
-      <!-- Row 3 -->
-      <div class="row">
-        <button class="button" onclick="input('4')">4</button>
-        <button class="button" onclick="input('5')">5</button>
-        <button class="button" onclick="input('6')">6</button>
-        <button class="button" onclick="calculateResult()">=</button>
-      </div>
-
-      <!-- Row 4 -->
-      <div class="row">
-        <button class="button" onclick="input('1')">1</button>
-        <button class="button" onclick="input('2')">2</button>
-        <button class="button" onclick="input('3')">3</button>
-      </div>
-
-      <!-- Row 5 -->
-      <div class="row">
-        <button class="button" onclick="input('0')">0</button>
-        <button class="button" onclick="input('.')">.</button>
+  <body>
+    <!-- main div  -->
+    <div
+      class="container min-vh-100 d-flex justify-content-center align-items-center"
+      id="main-div"
+    >
+      <!-- card container  -->
+      <div
+        class="calDiv bg-light d-flex flex-column justify-content-center"
+        id="calculator-div"
+      >
+        Scientific Calculator
+        <textarea
+          class="calDiv__inputField form-control shadow-none"
+          id="input-field"
+          wrap="soft"
+          maxlength="40"
+          readonly
+        >
+        </textarea>
+        <p class="text-center" id="error-div"></p>
+        <div class="d-flex justify-content-center align-items-center mt-2">
+          <button class="btn calDiv__btn bg-transparent fw-bold" id="m-clear">
+            MC
+          </button>
+          <button class="btn calDiv__btn bg-transparent fw-bold" id="m-recall">
+            MR
+          </button>
+          <button class="btn calDiv__btn bg-transparent fw-bold" id="m-plus">
+            M+
+          </button>
+          <button class="btn calDiv__btn bg-transparent fw-bold" id="m-minus">
+            M-
+          </button>
+          <button class="btn calDiv__btn bg-transparent fw-bold" id="m-store">
+            MS
+          </button>
+          <button
+            class="btn calDiv__btn bg-transparent d-flex justify-content-evenly align-items-center fw-bold"
+            id="m-show"
+          >
+            M
+          </button>
+          <div
+            class="calDiv_drawer flex-column align-content-between"
+            id="calDiv_drawer"
+          >
+            <div class="d-flex justify-content-between align-content-center">
+              <p class="m-3 calDiv__ErrMsgDiv" id="empty-msg"></p>
+            </div>
+            <div class="calDiv__numsDiv"></div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-1">
+          <button class="btn calDiv__btn" id="second-fn">
+            2 <sup>nd</sup>
+          </button>
+          <button class="btn calDiv__btn" id="π">π</button>
+          <button class="btn calDiv__btn" id="e">e</button>
+          <button class="btn calDiv__btn" id="reset-char">C</button>
+          <button class="btn calDiv__btn" id="remove-char">⌫</button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-1">
+          <button class="btn calDiv__btn d-inline 2nd-toggle-btn" id="**2">
+            x<sup>2</sup>
+          </button>
+          <button class="btn calDiv__btn d-none 2nd-toggle-btn" id="**3">
+            x<sup>3</sup>
+          </button>
+          <button class="btn calDiv__btn" id="1/x">1/x</button>
+          <button class="btn calDiv__btn" id="abs1">&#x23A2;x &#x23A2;</button>
+          <button class="btn calDiv__btn" id="e**">exp</button>
+          <button class="btn calDiv__btn" id="%">mod</button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-1">
+          <button class="btn calDiv__btn d-inline 2nd-toggle-btn" id="sqrt">
+            2&#8730;x
+          </button>
+          <button class="btn calDiv__btn d-none 2nd-toggle-btn" id="cbrt">
+            3&#8730;x
+          </button>
+          <button class="btn calDiv__btn" id="(">(</button>
+          <button class="btn calDiv__btn" id=")">)</button>
+          <button class="btn calDiv__btn" id="!">n!</button>
+          <button class="btn calDiv__btn fs-4" id="/">÷</button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-1">
+          <button class="btn calDiv__btn d-inline 2nd-toggle-btn" id="**">
+            x<sup>y</sup>
+          </button>
+          <button class="btn calDiv__btn d-none 2nd-toggle-btn" id="rt">
+            y&#8730;x
+          </button>
+          <button class="btn calDiv__btn fw-bold" id="7">7</button>
+          <button class="btn calDiv__btn fw-bold" id="8">8</button>
+          <button class="btn calDiv__btn fw-bold" id="9">9</button>
+          <button class="btn calDiv__btn" id="*"><b>x</b></button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-1">
+          <button class="btn calDiv__btn d-inline 2nd-toggle-btn" id="10sq">
+            10<sup>x</sup>
+          </button>
+          <button class="btn calDiv__btn d-none 2nd-toggle-btn" id="2**">
+            2<sup>x</sup>
+          </button>
+          <button class="btn calDiv__btn fw-bold" id="4">4</button>
+          <button class="btn calDiv__btn fw-bold" id="5">5</button>
+          <button class="btn calDiv__btn fw-bold" id="6">6</button>
+          <button class="btn calDiv__btn" id="-"><b>-</b></button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-1">
+          <button class="btn calDiv__btn d-inline 2nd-toggle-btn" id="log1">
+            log
+          </button>
+          <button class="btn calDiv__btn d-none 2nd-toggle-btn" id="log2">
+            log <sub>y</sub>x
+          </button>
+          <button class="btn calDiv__btn fw-bold" id="1">1</button>
+          <button class="btn calDiv__btn fw-bold" id="2">2</button>
+          <button class="btn calDiv__btn fw-bold" id="3">3</button>
+          <button class="btn calDiv__btn" id="+"><b>+</b></button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-1">
+          <button class="btn calDiv__btn d-inline 2nd-toggle-btn" id="ln">
+            ln
+          </button>
+          <button class="btn calDiv__btn d-none 2nd-toggle-btn" id="e-sq-x">
+            e <sup>x</sup>
+          </button>
+          <button class="btn calDiv__btn" id="plus-minus">+/-</button>
+          <button class="btn calDiv__btn fw-bold" id="0">0</button>
+          <button class="btn calDiv__btn" id=".">.</button>
+          <button class="btn calDiv__btn calDiv__btn--blue" id="=">
+            <b>=</b>
+          </button>
+        </div>
       </div>
     </div>
-
-    <!-- special scripts for integration in MTW gallery - must be placed at the bottom of the HTML after your code -->
+    <!-- Special scripts for integration in MTW gallery - must be placed at the bottom of the HTML after your code -->
     <script>
-      // custom config for the MTW app
+      // Custom config for the MTW app
       const mtwAppConfig = {
-        border: true, // app border in the MTW page
+        border: true, // App border in the MTW page
       };
 
-      ///////////////////////////////////////////////////////
-      // implement this functions in order to use private API
+      // Implement these functions in order to use private API
       const sendPrivateApiRequest = async () => {
-        // your code here:
+        // Your code here:
         // sendRequestToParent({ cat: 'getAssets' })
       };
 
       const acceptPrivateApiResponse = async (data) => {
-        // process received data here:
+        // Process received data here:
         // console.log(data)
       };
 
-      // use this in order to send on document load
-      document.addEventListener("DOMContentLoaded", () => {
-        // your code here:
-        //sendRequestToParent({ method: 'getAssets' })
+      // Use this in order to send on document load
+      document.addEventListener("DOMContentLoaded", function () {
+        // Your code here:
+        // sendRequestToParent({ method: 'getAssets' })
+        // Function to append characters to the input
       });
     </script>
     <script src="https://morethanwallet.com/appstore/index.js"></script>
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>
